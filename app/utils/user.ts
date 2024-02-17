@@ -61,7 +61,7 @@ export function userHasPermission(
 }
 
 export function userHasRole(
-	user: Pick<ReturnType<typeof useUser>, 'roles'> | null,
+	user: Pick<ReturnType<typeof useUser>, 'roles'> | null | undefined,
 	role: string,
 ) {
 	if (!user) return false

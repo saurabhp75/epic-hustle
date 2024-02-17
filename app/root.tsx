@@ -55,7 +55,7 @@ import { useRequestInfo } from './utils/request-info.ts'
 import { type Theme, setTheme, getTheme } from './utils/theme.server.ts'
 import { makeTimings, time } from './utils/timing.server.ts'
 import { getToast } from './utils/toast.server.ts'
-import { useOptionalUser, useUser } from './utils/user.ts'
+import { useOptionalUser, useUser, userHasRole } from './utils/user.ts'
 
 export const links: LinksFunction = () => {
 	return [
@@ -226,6 +226,7 @@ function App() {
 	const isOnSearchPage = matches.find(m => m.id === 'routes/users+/index')
 	const searchBar = isOnSearchPage ? null : <SearchBar status="idle" />
 	useToast(data.toast)
+	const userIsAdmin = userHasRole(user, 'admin')
 
 	return (
 		<Document nonce={nonce} theme={theme} env={data.ENV}>
@@ -238,7 +239,18 @@ function App() {
 						</div>
 						<div className="flex items-center gap-10">
 							{user ? (
-								<UserDropdown />
+								<>
+									<UserDropdown />
+									{userIsAdmin ? (
+										<Button asChild variant="secondary">
+											<Link to="/admin">
+												<Icon name="backpack">
+													<span className="hidden sm:block">Admin</span>
+												</Icon>
+											</Link>
+										</Button>
+									) : null}
+								</>
 							) : (
 								<Button asChild variant="default" size="lg">
 									<Link to="/login">Log In</Link>
