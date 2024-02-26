@@ -1,6 +1,6 @@
 import { type MetaFunction } from '@remix-run/node'
 
-export const meta: MetaFunction = () => [{ title: 'Epic Notes' }]
+export const meta: MetaFunction = () => [{ title: 'Sorablue' }]
 
 export default function Index() {
 	return (
