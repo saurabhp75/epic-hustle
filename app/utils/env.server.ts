@@ -16,6 +16,9 @@ const schema = z.object({
 	GITHUB_CLIENT_ID: z.string().default('MOCK_GITHUB_CLIENT_ID'),
 	GITHUB_CLIENT_SECRET: z.string().default('MOCK_GITHUB_CLIENT_SECRET'),
 	GITHUB_TOKEN: z.string().default('MOCK_GITHUB_TOKEN'),
+	LEMON_SQUEEZY_API_KEY: z.string(),
+	LEMON_SQUEEZY_STORE_ID: z.string(),
+	LEMON_SQUEEZY_WEBHOOK_SECRET: z.string(),
 })
 
 declare global {
