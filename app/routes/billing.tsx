@@ -11,12 +11,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
 	// lemonSqueezySetup({ apiKey: process.env.LEMON_SQUEEZY_API_KEY })
 	initLemon()
 	try {
-		const { error, data, statusCode } = await getStore(
-			process.env.LEMON_SQUEEZY_STORE_ID,
-			{
-				include: ['orders', 'products'],
-			},
-		)
+		const { error, data, statusCode } = await getStore(70793, {
+			include: ['orders', 'products'],
+		})
 
 		if (error) {
 			throw new Response(`Error in getStore, code:${statusCode}`, {
