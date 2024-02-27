@@ -2,6 +2,7 @@ import { type Submission } from '@conform-to/react'
 import { parseWithZod } from '@conform-to/zod'
 import { json } from '@remix-run/node'
 import { z } from 'zod'
+import { handleVerification as handleChangeEmailVerification } from '#app/routes/settings+/profile.change-email.server.tsx'
 import { twoFAVerificationType } from '#app/routes/settings+/profile.two-factor.tsx'
 import { requireUserId } from '#app/utils/auth.server.ts'
 import { prisma } from '#app/utils/db.server.ts'
@@ -24,7 +25,6 @@ import {
 	typeQueryParam,
 	type VerificationTypes,
 } from './verify.tsx'
-import { handleVerification as handleChangeEmailVerification } from '#app/routes/settings+/profile.change-email.server.tsx'
 
 export type VerifyFunctionArgs = {
 	request: Request
