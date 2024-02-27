@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import { invariantResponse } from '@epic-web/invariant'
 import { type ActionFunctionArgs } from '@remix-run/node'
 import { lemonConfig } from '#app/utils/lemon.server'
 
@@ -10,7 +11,7 @@ import { lemonConfig } from '#app/utils/lemon.server'
 // 5. subscription_payment_failed
 // 6. subscription_cancelled
 export async function action({ request }: ActionFunctionArgs) {
-	if (!lemonConfig) throw new Error('lemonConfig not defined')
+	invariantResponse(lemonConfig, 'lemonConfig not found', { status: 500 })
 	const secret = process.env.LEMON_SQUEEZY_WEBHOOK_SECRET
 	try {
 		const hmac = crypto.createHmac('sha256', secret)

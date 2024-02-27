@@ -1,3 +1,4 @@
+import { invariantResponse } from '@epic-web/invariant'
 import {
 	getStore,
 	// getSubscription,
@@ -10,7 +11,8 @@ import { GeneralErrorBoundary } from '#app/components/error-boundary'
 import { lemonConfig } from '#app/utils/lemon.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {
-	if (!lemonConfig) throw new Error('lemonConfig not defined')
+	invariantResponse(lemonConfig, 'lemonConfig not found', { status: 500 })
+	invariantResponse(false, 'lemonConfig not found', { status: 500 })
 	try {
 		const subsList = await listSubscriptions({
 			include: ['order', 'customer', 'product'],
@@ -58,6 +60,12 @@ export function ErrorBoundary() {
 		<GeneralErrorBoundary
 			statusHandlers={{
 				403: () => <p>Yeah, you can't be here...</p>,
+				500: ({ error }) => (
+					<p>
+						statusText:"{error.statusText}" status:"{error.status}" data:"
+						{error.data}"
+					</p>
+				),
 			}}
 		/>
 	)
