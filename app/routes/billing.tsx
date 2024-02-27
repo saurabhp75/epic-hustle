@@ -1,25 +1,18 @@
-import { invariantResponse } from '@epic-web/invariant'
+// import { invariantResponse } from '@epic-web/invariant'
 import { getStore } from '@lemonsqueezy/lemonsqueezy.js'
 import { json, type LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { GeneralErrorBoundary } from '#app/components/error-boundary'
-import { lemonConfig } from '#app/utils/lemon.server'
+import { initLemon } from '#app/utils/lemon.server'
+// import { lemonConfig } from '#app/utils/lemon.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {
-	invariantResponse(lemonConfig, 'lemonConfig not found', { status: 500 })
+	// invariantResponse(lemonConfig, 'lemonConfig not found', { status: 500 })
+	// lemonSqueezySetup({ apiKey: process.env.LEMON_SQUEEZY_API_KEY })
+	initLemon()
 	try {
-		// const subsList = await listSubscriptions({
-		// 	include: ['order', 'customer', 'product'],
-		// 	filter: { storeId: process.env.LEMON_SQUEEZY_STORE_ID },
-		// })
-
-		// const subs = await getSubscription(subscriptionId, {
-		// 	include: ['order', 'subscription-items'],
-		// })
-		// return json({ subs })
-
 		const { error, data, statusCode } = await getStore(
-			process.env.LEMON_SQUEEZY_STORE_ID as string,
+			process.env.LEMON_SQUEEZY_STORE_ID,
 			{
 				include: ['orders', 'products'],
 			},

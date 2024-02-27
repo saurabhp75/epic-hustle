@@ -1,10 +1,14 @@
 import crypto from 'crypto'
-import { remember } from '@epic-web/remember'
+// import { remember } from '@epic-web/remember'
 import { lemonSqueezySetup } from '@lemonsqueezy/lemonsqueezy.js'
 
-export const lemonConfig = remember('lemon', () => {
-	return lemonSqueezySetup({ apiKey: process.env.LEMON_SQUEEZY_API_KEY })
-})
+// export const lemonConfig = remember('lemon', () => {
+// 	return lemonSqueezySetup({ apiKey: process.env.LEMON_SQUEEZY_API_KEY })
+// })
+
+export function initLemon() {
+	lemonSqueezySetup({ apiKey: process.env.LEMON_SQUEEZY_API_KEY })
+}
 
 export async function validateEvent(request: Request) {
 	const secret = process.env.LEMON_SQUEEZY_WEBHOOK_SECRET

@@ -1,6 +1,6 @@
-import { invariantResponse } from '@epic-web/invariant'
+// import { invariantResponse } from '@epic-web/invariant'
 import { type ActionFunctionArgs } from '@remix-run/node'
-import { lemonConfig, validateEvent } from '#app/utils/lemon.server'
+import { initLemon, validateEvent } from '#app/utils/lemon.server'
 
 // This lemonsqueezy webhook will listen to following events
 // 1. order_created
@@ -10,7 +10,8 @@ import { lemonConfig, validateEvent } from '#app/utils/lemon.server'
 // 5. subscription_payment_failed
 // 6. subscription_cancelled
 export async function action({ request }: ActionFunctionArgs) {
-	invariantResponse(lemonConfig, 'lemonConfig not found', { status: 500 })
+	// invariantResponse(lemonConfig, 'lemonConfig not found', { status: 500 })
+	initLemon()
 
 	try {
 		await validateEvent(request)
