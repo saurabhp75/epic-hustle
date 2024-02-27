@@ -1,22 +1,22 @@
 import { invariantResponse } from '@epic-web/invariant'
-import {
-	getStore,
-	// getSubscription,
-	listSubscriptions,
-} from '@lemonsqueezy/lemonsqueezy.js'
+import { getStore } from '@lemonsqueezy/lemonsqueezy.js'
 import { json, type LoaderFunctionArgs } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { GeneralErrorBoundary } from '#app/components/error-boundary'
-// import { requireUserId } from '#app/utils/auth.server'
 import { lemonConfig } from '#app/utils/lemon.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {
 	invariantResponse(lemonConfig, 'lemonConfig not found', { status: 500 })
 	try {
-		const subsList = await listSubscriptions({
-			include: ['order', 'customer', 'product'],
-			filter: { storeId: process.env.LEMON_SQUEEZY_STORE_ID },
-		})
+		// const subsList = await listSubscriptions({
+		// 	include: ['order', 'customer', 'product'],
+		// 	filter: { storeId: process.env.LEMON_SQUEEZY_STORE_ID },
+		// })
+
+		// const subs = await getSubscription(subscriptionId, {
+		// 	include: ['order', 'subscription-items'],
+		// })
+		// return json({ subs })
 
 		const { error, data, statusCode } = await getStore(
 			process.env.LEMON_SQUEEZY_STORE_ID as string,
@@ -25,30 +25,24 @@ export async function loader({ request }: LoaderFunctionArgs) {
 			},
 		)
 
-		if (!error) {
-			// console.log({ store })
-			console.dir({ data })
-		} else {
-			throw new Error(`Error in getStore, code:${statusCode}`)
+		if (error) {
+			throw new Response(`Error in getStore, code:${statusCode}`, {
+				status: 500,
+			})
 		}
-
-		// const subs = await getSubscription(subscriptionId, {
-		// 	include: ['order', 'subscription-items'],
-		// })
-		// return json({ subs })
-		return json({ subsList })
+		return json({ data })
 	} catch (error) {
-		throw new Error('something went wrong in billing')
+		throw new Response('something went wrong in billing', { status: 500 })
 	}
 }
 
 export default function BillingRoute() {
-	const subsList = useLoaderData<typeof loader>()
+	const data = useLoaderData<typeof loader>()
 
-	console.log({ subsList })
+	console.log({ data })
 
 	return (
-		<div>
+		<div className="grid h-full place-items-center">
 			<h1>Billing</h1>
 		</div>
 	)
