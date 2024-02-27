@@ -1,6 +1,5 @@
 import { getFormProps, getInputProps, useForm } from '@conform-to/react'
 import { getZodConstraint, parseWithZod } from '@conform-to/zod'
-import { invariant } from '@epic-web/invariant'
 import {
 	json,
 	redirect,
@@ -32,9 +31,8 @@ import {
 	UsernameSchema,
 } from '#app/utils/user-validation.ts'
 import { verifySessionStorage } from '#app/utils/verification.server.ts'
-import { type VerifyFunctionArgs } from './verify.tsx'
 
-const onboardingEmailSessionKey = 'onboardingEmail'
+export const onboardingEmailSessionKey = 'onboardingEmail'
 
 const SignupFormSchema = z
 	.object({
@@ -124,20 +122,6 @@ export async function action({ request }: ActionFunctionArgs) {
 		{ title: 'Welcome', description: 'Thanks for signing up!' },
 		{ headers },
 	)
-}
-
-export async function handleVerification({ submission }: VerifyFunctionArgs) {
-	invariant(
-		submission.status === 'success',
-		'Submission should be successful by now',
-	)
-	const verifySession = await verifySessionStorage.getSession()
-	verifySession.set(onboardingEmailSessionKey, submission.value.target)
-	return redirect('/onboarding', {
-		headers: {
-			'set-cookie': await verifySessionStorage.commitSession(verifySession),
-		},
-	})
 }
 
 export const meta: MetaFunction = () => {
