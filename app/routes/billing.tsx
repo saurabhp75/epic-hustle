@@ -12,7 +12,6 @@ import { lemonConfig } from '#app/utils/lemon.server'
 
 export async function loader({ request }: LoaderFunctionArgs) {
 	invariantResponse(lemonConfig, 'lemonConfig not found', { status: 500 })
-	invariantResponse(false, 'lemonConfig not found', { status: 500 })
 	try {
 		const subsList = await listSubscriptions({
 			include: ['order', 'customer', 'product'],
