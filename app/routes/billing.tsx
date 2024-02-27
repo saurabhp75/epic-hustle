@@ -5,7 +5,7 @@ import {
 	listSubscriptions,
 } from '@lemonsqueezy/lemonsqueezy.js'
 import { json, type LoaderFunctionArgs } from '@remix-run/node'
-// import { useLoaderData } from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
 import { GeneralErrorBoundary } from '#app/components/error-boundary'
 // import { requireUserId } from '#app/utils/auth.server'
 import { lemonConfig } from '#app/utils/lemon.server'
@@ -43,9 +43,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function BillingRoute() {
-	// const subsList = useLoaderData<typeof loader>()
+	const subsList = useLoaderData<typeof loader>()
 
-	// console.log({ subsList })
+	console.log({ subsList })
 
 	return (
 		<div>
